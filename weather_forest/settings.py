@@ -9,15 +9,20 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import json
 import os
 from pathlib import Path
 from dotenv import load_dotenv, dotenv_values
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-ENV_LOC = BASE_DIR / "weather_forest/.env"
-ENV_LOAD = load_dotenv(ENV_LOC)
+
+try:
+    ENV_FILE = json.load(open(os.path.join(BASE_DIR, "keys.json")))
+except FileNotFoundError:
+    ENV_LOC = BASE_DIR / "rainday/.env"
+    ENV_LOAD = load_dotenv(ENV_LOC)
+    ENV_FILE = dotenv_values(ENV_LOC)
 
 
 # Quick-start development settings - unsuitable for production
@@ -82,11 +87,11 @@ AUTH_USER_MODEL = "app.User"
 
 DATABASES = {
     "default": {
-        "NAME": "weather_forest",
+        "NAME": "rainday",
         "ENGINE": "django.db.backends.mysql",
-        "USER": "root",
-        "PASSWORD": "12345123",
-        "HOST": "127.0.0.1",
+        "USER": ENV_FILE.get("DB_USER"),
+        "PASSWORD": ENV_FILE.get("DB_PASS"),
+        "HOST": ENV_FILE.get("DB_HOST"),
         "PORT": "3306",
         "OPTIONS": {
             "autocommit": True,
@@ -146,10 +151,5 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
 
-if ENV_LOAD:
-    config = dotenv_values(ENV_LOC)
-    EMAIL_HOST_PASSWORD = config.get("GMAIL_AUTH")
-    EMAIL_HOST_USER = config.get("GMAIL_ADDR")
-else:
-    EMAIL_HOST_PASSWORD = os.environ.get("GMAIL_AUTH")
-    EMAIL_HOST_USER = os.environ.get("GMAIL_ADDR")
+EMAIL_HOST_PASSWORD = ENV_FILE.get("GMAIL_AUTH")
+EMAIL_HOST_USER = ENV_FILE.get("GMAIL_ADDR")
