@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 try:
     ENV_FILE = json.load(open(os.path.join(BASE_DIR, "keys.json")))
 except FileNotFoundError:
-    ENV_LOC = BASE_DIR / "rainday/.env"
+    ENV_LOC = BASE_DIR / "weather_forest/.env"
     ENV_LOAD = load_dotenv(ENV_LOC)
     ENV_FILE = dotenv_values(ENV_LOC)
 
