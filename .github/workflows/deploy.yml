@@ -16,7 +16,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - uses: danielr1996/envsubst-action@1.0.0
+    - uses: sjth0425/envsubst-action@1.0.0
       with:
         input: template.json
         output: keys.json
