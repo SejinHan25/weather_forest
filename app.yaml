@@ -1,4 +1,4 @@
-runtime: python311
+runtime: python310
 
 instance_class: B4
 service: default

@@ -87,7 +87,7 @@ AUTH_USER_MODEL = "app.User"
 
 DATABASES = {
     "default": {
-        "NAME": "rainday",
+        "NAME": "weather_forest",
         "ENGINE": "django.db.backends.mysql",
         "USER": ENV_FILE.get("DB_USER"),
         "PASSWORD": ENV_FILE.get("DB_PASS"),
